@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    基于set完成注入 -->
+    <bean id="book" class="com.atguigu.spring6.iocxml.di.Book">
+<!--    property会调set    -->
+        <property name="bname" value="前端开发"></property>
+        <property name="author" value="GJ"></property>
+    </bean>
+
+<!--    构造方法注入-->
+    <bean id="bookCon" class="com.atguigu.spring6.iocxml.di.Book">
+        <constructor-arg name="bname" value="后端开发"></constructor-arg>
+        <constructor-arg index="1" value="Gj"></constructor-arg>
+    </bean>
+</beans>
