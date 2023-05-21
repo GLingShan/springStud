@@ -5,13 +5,17 @@ package com.atguigu.bean;
 import java.io.File;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
 import com.atguigu.anno.Bean;
+import com.atguigu.anno.Di;
 
 /**
  * AnnotationApplicationContext
@@ -49,6 +53,9 @@ public class AnnotationApplicationContext implements ApplicationContext{
     } catch (Exception e) {
       throw new RuntimeException(e);
     }
+
+    // 属性注入 Di
+    loadDi();
   }
 
   private void loadBean(File file) throws Exception {
@@ -99,5 +106,38 @@ public class AnnotationApplicationContext implements ApplicationContext{
         }
       }
     }
+  }
+
+  // 属性注入
+  private void loadDi() {
+
+    //1. 实例化的对象，都是在beanFactory之中，遍历
+    Set<Map.Entry<Class, Object>> entries = beanFactory.entrySet();
+    for (Map.Entry<Class, Object> entry : entries) {
+
+      //2. 获取map集合中的value，
+      Object obj = entry.getValue();
+      Class<?> clazz = obj.getClass();
+      // 把对象属性都获取到
+      Field[] declaredField = clazz.getDeclaredFields();
+      //3. 遍历属性数组
+      for (Field field : declaredField) {
+        Di annotation = field.getAnnotation(Di.class);
+        if (annotation != null) {
+          //如果私有属性，设置可以设置值
+          field.setAccessible(true);
+          //4. 判断是否有@Di注解，将对象进行注入
+          try {
+            field.set(obj,beanFactory.get(field.getType()));
+          }catch (Exception e){
+            throw new RuntimeException();
+          }
+        }
+      }
+
+    }
+
+
+
   }
 }

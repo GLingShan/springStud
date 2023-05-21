@@ -6,4 +6,5 @@ include 'spring6-reflect'
 include 'spring6-ioc-xml:atguiigu-spring'
 findProject(':spring6-ioc-xml:atguiigu-spring')?.name = 'atguiigu-spring'
 include 'atguigu-spring'
+include 'spring6-aop'
 
