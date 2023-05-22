@@ -8,5 +8,6 @@ public class TestAop {
         ApplicationContext context = new ClassPathXmlApplicationContext("bean.xml");
         Calculator bean = context.getBean(Calculator.class);
         bean.add(1,2);
+//        bean.div(1,0);
     }
 }

@@ -40,9 +40,7 @@ public class CalculatorImpl implements Calculator {
     public int div(int i, int j) {
 
         int result = i / j;
-
         System.out.println("方法内部 result = " + result);
-
         return result;
     }
 }
